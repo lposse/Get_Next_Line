@@ -6,7 +6,7 @@
 /*   By: lposse <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:17:40 by lposse            #+#    #+#             */
-/*   Updated: 2025/03/04 22:11:14 by lposse           ###   ########.fr       */
+/*   Updated: 2025/03/07 20:40:30 by lposse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*ft_next_line(char **remainder)
 {
 	int		i;
 	char	*line;
-	char	*temp;
 	char	*old_remainder;
 
 	if (!*remainder)
@@ -28,14 +27,12 @@ char	*ft_next_line(char **remainder)
 		i++;
 	line = ft_substr(*remainder, 0, i);
 	old_remainder = *remainder;
-	if (i < (int)strlen(*remainder))
-		*remainder = ft_strdup(*backup + i);
+	if (i < (int)ft_strlen(*remainder))
+		*remainder = ft_strdup(*remainder + i);
 	else
-		*backup = NULL;
-	free(old_backup);
-	temp = line;
-	free(line);
-	return (temp);
+		*remainder = NULL;
+	free(old_remainder);
+	return (line);
 }
 
 ssize_t	read_file(int fd, char **buffer, char **remainder)
@@ -43,14 +40,16 @@ ssize_t	read_file(int fd, char **buffer, char **remainder)
 	int		bytes;
 	char	*old_remainder;
 
+	if (!*remainder)
+		*remainder = ft_strdup("");
 	bytes = read(fd, *buffer, BUFFER_SIZE);
-	if (bytes == -1)
+	if (bytes <= 0)
 		return (bytes);
 	if (!ft_strchr(*remainder, '\n'))
 	{
 		(*remainder)[bytes] = '\0';
 		old_remainder = *remainder;
-		*remainder = ft_strjoin(old_remainder, *buffer);
+		*remainder = ft_strjoin(*remainder, *buffer);
 		free(old_remainder);
 	}
 	return (bytes);

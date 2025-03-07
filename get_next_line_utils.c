@@ -6,13 +6,13 @@
 /*   By: lposse <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:42:16 by lposse            #+#    #+#             */
-/*   Updated: 2025/03/04 22:18:34 by lposse           ###   ########.fr       */
+/*   Updated: 2025/03/07 20:09:39 by lposse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+int	ft_strlen(const char *str)
 {
 	int	count;
 
@@ -80,8 +80,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (s_len - start < len || len > s_len)
 		len = s_len - start;
-	substr = (char *)ft_calloc((len + 1), sizeof(char));
-	if (substr == NULL)
+	substr = (char *)calloc((len + 1), sizeof(char));
+	if (!substr)
 		return (NULL);
 	i = 0;
 	while (i < len)
@@ -89,6 +89,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		substr[i] = s[start + i];
 		i++;
 	}
+	substr[i] = '\0';
 	return (substr);
 }
 
@@ -99,6 +100,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		i;
 	int		j;
 
+	if (!s1 || !s2)
+		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	result = (char *)malloc((len + 1) * sizeof(char));
 	if (!result)

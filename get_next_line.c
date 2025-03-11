@@ -40,18 +40,16 @@ ssize_t	read_file(int fd, char **buffer, char **remainder)
 	int		bytes;
 	char	*old_remainder;
 
-	if (!*remainder)
+	if (!remainder)
 		*remainder = ft_strdup("");
 	bytes = read(fd, *buffer, BUFFER_SIZE);
 	if (bytes <= 0)
 		return (bytes);
-	if (!ft_strchr(*remainder, '\n'))
-	{
-		(*remainder)[bytes] = '\0';
-		old_remainder = *remainder;
-		*remainder = ft_strjoin(*remainder, *buffer);
-		free(old_remainder);
-	}
+	(*buffer)[bytes] = '\0';
+	old_remainder = *remainder;
+	*remainder = ft_strjoin(*remainder, *buffer);
+	free(old_remainder);
+	
 	return (bytes);
 }
 
@@ -69,7 +67,12 @@ char	*ft_line(int fd, char **buffer, char **remainder)
 	ssize_t	bytes_read;
 	char	*last_line;
 
-	bytes_read = read_file(fd, buffer, remainder);
+	while (!ft_strchr(*remainder, '\n'))
+	{
+		bytes_read = read_file(fd, buffer, remainder);
+		if (bytes_read <= 0)
+			break ;
+	}
 	if (!**remainder || bytes_read < 0)
 	{
 		free_ptr(remainder);

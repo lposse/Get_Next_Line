@@ -6,7 +6,7 @@
 /*   By: lposse <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:17:40 by lposse            #+#    #+#             */
-/*   Updated: 2025/03/07 20:40:30 by lposse           ###   ########.fr       */
+/*   Updated: 2025/03/12 15:22:25 by lposse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ ssize_t	read_file(int fd, char **buffer, char **remainder)
 	old_remainder = *remainder;
 	*remainder = ft_strjoin(*remainder, *buffer);
 	free(old_remainder);
-	
 	return (bytes);
 }
 

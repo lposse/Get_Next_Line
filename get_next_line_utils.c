@@ -80,7 +80,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (s_len - start < len || len > s_len)
 		len = s_len - start;
-	substr = (char *)calloc((len + 1), sizeof(char));
+	substr = (char *)malloc((len + 1) * sizeof(char));
 	if (!substr)
 		return (NULL);
 	i = 0;
